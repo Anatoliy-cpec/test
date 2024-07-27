@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if my_session %}
+        <h1>Сессия активна</h1>
+        <p>user: {{request.session.session_key}}</p>
+        <h2>Текущий файл</h2>
+        <p>file: {{my_session.file}}</p>
+        <h2>Текст из файла</h2>
+        <p>text: {{my_session.get_text_from_file}}</p>
+        <h2>Изменить файл</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token%}
+            <hr>
+            {{form.as_p}}
+            <input type="submit" value="Сохранить">
+        </form> 
+        <h2>Найти слова</h2>
+        <form action="">
+            {% csrf_token%}
+            <input type="text" name="search">
+            <input type="submit" value="Найти">
+        </form>
+        <p>Слово: {{search_word}}</p>
+        <p>Количество: {{search_word_count}}</p>
+        <h2>Удалить сессию</h2>
+        <a href="{% url 'clear' %}">Очистить</a>
+    {% else %}
+    <h1>Сессия не активна</h1>
+    <h2>Создать сессию</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token%}
+            <hr>
+            {{form.as_p}}
+            <input type="submit" value="Сохранить">
+        </form>    
+    {% endif %}
+</body>
+</html>
